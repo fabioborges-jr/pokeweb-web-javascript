@@ -22,7 +22,7 @@ Immerse yourself in the world of PokeWeb seamlessly through Discord authenticati
 
 Embark on a journey filled with camaraderie, discovery, and the thrill of capturing Pokémon with PokeWeb. Are you ready to become the ultimate Pokémon trainer alongside your friends?
 
-# PokeWeb 🌐 (Portugûes)
+# PokeWeb 🌐 (Português)
 
 ## Bem-vindo ao PokeWeb!
 
