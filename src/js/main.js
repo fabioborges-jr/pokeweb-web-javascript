@@ -1,5 +1,5 @@
 const CLIENT_ID="1183424074031046656"
-const REDIRECT_URI="http://127.0.0.1:5500/callback"
+const REDIRECT_URI="http://localhost:3000/callback"
 
 
 document.getElementById("discord-login").addEventListener("click", ()=>{

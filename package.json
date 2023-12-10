@@ -4,11 +4,13 @@
   "description": "PokeWeb is an immersive Pokémon adventure designed for capturing Pokémon with friends. The project focuses on enhancing social interaction through seamless Discord authentication. Dive into the excitement with these amazing features:",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "simple-oauth2": "^5.0.0"
   }
 }
