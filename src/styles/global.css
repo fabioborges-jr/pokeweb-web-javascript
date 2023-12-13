@@ -33,7 +33,7 @@ body{
     place-self: start;
 }
 
-button{
+a{
     padding: 0.5rem;
     margin: auto 0;
     width: 85%;
@@ -42,11 +42,11 @@ button{
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
+    text-decoration: none;
 }
 
-button img{
-    margin-right: 1rem;
+a img{
+    margin-right: 0.5rem;
 }
 
 p{
