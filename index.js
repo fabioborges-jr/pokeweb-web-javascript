@@ -39,6 +39,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(express.static(__dirname + '/')); 
+app.use(express.static(__dirname + '/src')); 
 
 app.get("/", (req,res)=>{
   const html = fs.readFileSync("./src/html/index.html", "utf-8");
@@ -52,7 +53,8 @@ app.get('/auth/discord/callback',
 );
 
 app.get('/app', checkAuth, function(req, res) {
-  const html = fs.readFileSync("./src/html/index.html", "utf-8");
+  console.log(__dirname)
+  const html = fs.readFileSync("./src/html/app.html", "utf-8");
   res.end(html);
 });
 
