@@ -20,7 +20,6 @@ passport.deserializeUser(function(obj, done) {
 });
 
 var scopes = ['identify'];
-
 passport.use(new Strategy({
   clientID: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,
@@ -36,19 +35,13 @@ passport.use(new Strategy({
   });
 }));
 
-app.use(session({
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: false
-}));
-
-app.use(passport.initialize());
-
-app.use(passport.session());
-
-app.use(express.static(__dirname + '/')); 
-app.use(express.static(__dirname + '/src')); 
-
+app.use(
+  session({secret: 'keyboard cat',resave: false, saveUninitialized: false}),
+  passport.initialize(),
+  passport.session(),
+  express.static(__dirname + '/'),
+  express.static(__dirname + '/src')
+)
 
 // Routes
 app.get("/", checkAuthIndex, (req,res)=>{
