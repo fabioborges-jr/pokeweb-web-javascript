@@ -11,13 +11,7 @@ datasource db {
 }
 
 model Player {
-  id       Int       @id @default(autoincrement())
-  name     String
-  PokemonsID Int[]
-}
-
-model Pokemon {
-  id Int @id @default(autoincrement())
-  name String
-  image String
+  email      String @id
+  name       String
+  pokemonsID Int[]
 }

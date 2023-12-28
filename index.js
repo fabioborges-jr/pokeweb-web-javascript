@@ -4,37 +4,15 @@ const fs = require("fs")
 const express=require("express")
 const session=require("express-session")
 const passport=require("passport")
-const Strategy=require("./node_modules/passport-discord/lib/strategy")
 const {PrismaClient}=require("@prisma/client")
+const passportInitialize = require("./src/js/oauth")
 
 // Intances Modules
 const app=express()
 const prisma=new PrismaClient()
+passportInitialize(passport, prisma)
 
-// Passport Configuration
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
-passport.deserializeUser(function(obj, done) {
-  done(null, obj);
-});
-
-var scopes = ['identify'];
-passport.use(new Strategy({
-  clientID: process.env.CLIENT_ID,
-  clientSecret: process.env.CLIENT_SECRET,
-  callbackURL: process.env.REDIRECT_URI,
-  scope: scopes,
-}, async function(accessToken, refreshToken, profile, done) {
-  console.log(profile)
-  await prisma.player.create({data:{
-    name:profile.global_name
-  }})
-  process.nextTick(function() {
-      return done(null, profile);
-  });
-}));
-
+// Midlewares
 app.use(
   session({secret: 'keyboard cat',resave: false, saveUninitialized: false}),
   passport.initialize(),
@@ -42,6 +20,16 @@ app.use(
   express.static(__dirname + '/'),
   express.static(__dirname + '/src')
 )
+
+function checkAuth(req, res, next) {
+  if (req.isAuthenticated()) return next();
+  res.send('not logged in :(');
+}
+
+function checkAuthIndex(req, res, next) {
+  if (!req.isAuthenticated()) return next();
+  res.redirect('/app');
+}
 
 // Routes
 app.get("/", checkAuthIndex, (req,res)=>{
@@ -54,20 +42,9 @@ app.get('/auth/discord/callback',
 );
 
 app.get('/app', checkAuth, function(req, res) {
-  console.log(__dirname)
   const html = fs.readFileSync("./src/html/app.html", "utf-8");
   res.end(html);
 });
-
-function checkAuth(req, res, next) {
-  if (req.isAuthenticated()) return next();
-  res.send('not logged in :(');
-}
-
-function checkAuthIndex(req, res, next) {
-  if (!req.isAuthenticated()) return next();
-  res.redirect('/app');
-}
 
 // Port Listening
 app.listen(3000, function (err) {
