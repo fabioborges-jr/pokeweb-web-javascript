@@ -7,6 +7,15 @@ const passport=require("passport")
 const {PrismaClient}=require("@prisma/client")
 const passportInitialize = require("./src/js/oauth")
 
+// Objects
+function Player (email, name, pokemonsID, avatar, userIdDiscord){
+  this.email=email
+  this.name=name
+  this.pokemonsID=pokemonsID
+  this.avatar=avatar
+  this.userIdDiscord=userIdDiscord
+}
+
 // Instances Modules
 const app=express()
 const prisma=new PrismaClient()
@@ -36,6 +45,15 @@ function checkAuthIndex(req, res, next) {
   res.redirect('/app');
 }
 
+// Functions
+function gettingPokemonsDB(email){
+  return prisma.player.findUnique({
+    where:{
+      email: email
+    }
+  })
+}
+
 // Routes
 app.get("/", checkAuthIndex, (req,res)=>{
   const html = fs.readFileSync("./src/html/index.html", "utf-8");
@@ -52,7 +70,15 @@ app.get('/app', checkAuth, function(req, res) {
 });
 
 app.get("/player", function (req, res){
-  res.json({user:req.user})
+  const player=new Player(
+    req.user.email,
+    req.user.global_name,
+    gettingPokemonsDB(req.user.email),
+    req.user.avatar,
+    req.user.id    
+  )
+
+  res.json({player:player})
 })
 
 // Port Listening
