@@ -8,6 +8,8 @@ a{
 }
 
 body{
+    display: flex;
+    flex-direction: column;
     height: 100vh;
 }
 
@@ -32,9 +34,10 @@ nav img{
 }
 
 main{
+    flex-grow: 1;
     display: flex;
-    height: max-content;
     width: 100%;
+    object-fit: fill;
 }
 
 main h1{
@@ -44,16 +47,16 @@ main h1{
 }
 
 section{
+    flex-grow: 1;
+    height: 100%;
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
-    height: 100vh;
+    border-style: solid;
+    border-color: red;
 }
 
 section img{
     width: auto;
-    height: 100%;
-    object-fit: cover;
 }
 
 section div{
