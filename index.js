@@ -55,31 +55,37 @@ function gettingPokemonsDB(email){
 }
 
 // Routes
-app.get("/", checkAuthIndex, (req,res)=>{
-  const html = fs.readFileSync("./src/html/index.html", "utf-8");
-  res.end(html);
-})
+  // Pages
+    app.get("/", checkAuthIndex, (req,res)=>{
+      const html = fs.readFileSync("./src/html/index.html", "utf-8");
+      res.end(html);
+    })
+    
+    app.get('/app', checkAuth, function(req, res) {
+      const html = fs.readFileSync("./src/html/app.html", "utf-8");
+      res.end(html);
+    });
+    
+    app.get('/catch', checkAuth, function(req, res) {
+      const html = fs.readFileSync("./src/html/catch.html", "utf-8");
+      res.end(html);
+    });
 
-app.get('/auth/discord/callback',
-    passport.authenticate('discord', { failureRedirect: '/' }), function(req, res) { res.redirect('/app') } // auth success
-);
+  // Endpoints    
+    app.get('/auth/discord/callback',
+        passport.authenticate('discord', { failureRedirect: '/' }), function(req, res) { res.redirect('/app') } // auth success
+    );
 
-app.get('/app', checkAuth, function(req, res) {
-  const html = fs.readFileSync("./src/html/app.html", "utf-8");
-  res.end(html);
-});
-
-app.get("/player", function (req, res){
-  const player=new Player(
-    req.user.email,
-    req.user.global_name,
-    gettingPokemonsDB(req.user.email),
-    req.user.avatar,
-    req.user.id    
-  )
-
-  res.json({player:player})
-})
+    app.get("/player", function (req, res){
+      const player=new Player(
+        req.user.email,
+        req.user.global_name,
+        gettingPokemonsDB(req.user.email),
+        req.user.avatar,
+        req.user.id    
+      )
+      res.json({player:player})
+    })  
 
 // Port Listening
 app.listen(3000, function (err) {
