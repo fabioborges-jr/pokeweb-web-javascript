@@ -1,7 +1,7 @@
 const Strategy=require("../../node_modules/passport-discord/lib/strategy")
 
+// Passport Configuration
 function passportInitialize(passport, prisma){
-    // Passport Configuration
     passport.serializeUser(function(user, done) {
         done(null, user);
     });
@@ -16,11 +16,13 @@ function passportInitialize(passport, prisma){
         callbackURL: process.env.REDIRECT_URI,
         scope: scopes,
     }, async function(accessToken, refreshToken, profile, done) {
+
         if (profile){
         discordCredentials=profile
         const getPlayer=await prisma.player.findUnique({where:{
             email:profile.email
         }})
+
         if(!getPlayer){
             await prisma.player.create({data:{
             email:profile.email,
@@ -28,6 +30,7 @@ function passportInitialize(passport, prisma){
             pokemonsID:[]
             }})
         }
+        
         process.nextTick(function() {
             return done(null, profile);
         });

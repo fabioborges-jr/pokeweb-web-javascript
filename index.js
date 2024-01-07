@@ -7,14 +7,19 @@ const passport=require("passport")
 const {PrismaClient}=require("@prisma/client")
 const passportInitialize = require("./src/js/oauth")
 
-// Intances Modules
+// Instances Modules
 const app=express()
 const prisma=new PrismaClient()
 passportInitialize(passport, prisma)
 
-// Midlewares
+// Middlewares
 app.use(
-  session({secret: 'keyboard cat',resave: false, saveUninitialized: false}),
+  session({
+    secret: 'dfme$rogv@uerml',
+    resave: false, 
+    saveUninitialized: false,
+    cookie:{maxAge:7*24*60*60*1000}
+  }),
   passport.initialize(),
   passport.session(),
   express.static(__dirname + '/'),
@@ -45,6 +50,10 @@ app.get('/app', checkAuth, function(req, res) {
   const html = fs.readFileSync("./src/html/app.html", "utf-8");
   res.end(html);
 });
+
+app.get("/player", function (req, res){
+  res.json({user:req.user})
+})
 
 // Port Listening
 app.listen(3000, function (err) {
