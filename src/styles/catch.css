@@ -1,11 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
 
-a{
-    font-weight: 400;
-    text-decoration: none;
-    color: #FFFFFF;
-    font-size: 1.25rem;
-}
 
 body{
     display: flex;
@@ -17,10 +11,16 @@ nav{
     color: #FFFFFF;
     background-color: #237A74;
     display: flex;
-    width: 100%;
-    height: 4rem;
+    height: 8%;
     justify-content: space-around;
     align-items: center;
+}
+
+a{
+    font-weight: 400;
+    text-decoration: none;
+    color: #FFFFFF;
+    font-size: 1.25rem;
 }
 
 nav button, .avatarImage{
@@ -34,35 +34,18 @@ nav img{
 }
 
 main{
-    flex-grow: 1;
     display: flex;
-    width: 100%;
-    object-fit: fill;
-}
-
-main h1{
-    margin-top: 2rem;
-    margin-left: 2rem;
-    color: #237A74;
+    height: 92%;
 }
 
 section{
-    flex-grow: 1;
-    height: 100%;
     display: flex;
-    justify-content: space-between;
-    border-style: solid;
-    border-color: red;
+    height: 100%;
+    width: 100%;
 }
 
-section img{
-    width: auto;
-}
-
-section div{
-    background-color: #237A74;
-    border-radius: 0.5rem;
-    min-width: 200px;
-    width: 20%;
-    height: 10rem;
+#pokeball{
+    width: 7rem;
+    object-fit: contain;
+    margin: 0 auto;
 }
