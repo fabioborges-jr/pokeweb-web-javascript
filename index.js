@@ -16,6 +16,13 @@ function Player (email, name, pokemonsID, avatar, userIdDiscord){
   this.userIdDiscord=userIdDiscord
 }
 
+function Pokemon(id,name,type,sprite){
+  this.id=id
+  this.name=name
+  this.type=type
+  this.sprite=sprite
+}
+
 // Instances Modules
 const app=express()
 const prisma=new PrismaClient()
@@ -54,6 +61,10 @@ function gettingPokemonsDB(email){
   })
 }
 
+function getPokemonAtPokeAPI(){
+
+}
+
 // Routes
   // Pages
     app.get("/", checkAuthIndex, (req,res)=>{
@@ -87,11 +98,23 @@ function gettingPokemonsDB(email){
       res.json({player:player})
     })
 
-    app.get("/catchpokemon", function (req, res){
+    app.get("/catchnewpokemon", function (req, res){
       const drawPokemon=Math.round(Math.random()*150+1)
-      console.log(drawPokemon)
-      fetch(`https://pokeapi.co/api/v2/pokemon/${drawPokemon}`).then((res)=>res.json()).then((data)=>console.log(data))
-    })
+      let newPokemon
+      fetch(`https://pokeapi.co/api/v2/pokemon/${drawPokemon}`)
+        .then((res)=>res.json())
+        .then(data=>{
+          newPokemon=new Pokemon(
+            data.id,
+            data.name,
+            data.types[0].type.name,
+            data.sprites.front_default
+          )
+        })
+        .catch((error)=>console.error(error))
+        console.log(newPokemon)
+        res.json({newPokemon:newPokemon})
+      })
 
 // Port Listening
 app.listen(3000, function (err) {

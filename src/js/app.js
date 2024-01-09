@@ -1,5 +1,6 @@
 // Variables
 const avatarElement=document.getElementById("avatar")
+const pokeballElement=document.getElementById("pokeball")
 
 // Functions
 function getPlayerData(){
@@ -17,5 +18,14 @@ function insertAvatar(){
     .catch((error)=> console.error(error))
 }
 
+function getNewPokemon(){
+    fetch("/catchnewpokemon")
+        .then((res)=>res.json())
+        .then((data)=>console.log(data.newPokemon))
+}
+
 // Init
 insertAvatar()
+
+
+pokeballElement.addEventListener("click", getNewPokemon)

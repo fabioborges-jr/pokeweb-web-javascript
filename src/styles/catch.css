@@ -44,12 +44,14 @@ section{
     width: 100%;
 }
 
-section a{
+section button{
+    background: none;
+    /* border: none; */
     margin: 0 auto;
     align-self: center;
 }
 
-#pokeball{
+#pokeball img{
     width: 7rem;
     object-fit: contain;
 }
