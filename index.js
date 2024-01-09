@@ -85,7 +85,13 @@ function gettingPokemonsDB(email){
         req.user.id    
       )
       res.json({player:player})
-    })  
+    })
+
+    app.get("/catchpokemon", function (req, res){
+      const drawPokemon=Math.round(Math.random()*150+1)
+      console.log(drawPokemon)
+      fetch(`https://pokeapi.co/api/v2/pokemon/${drawPokemon}`).then((res)=>res.json()).then((data)=>console.log(data))
+    })
 
 // Port Listening
 app.listen(3000, function (err) {

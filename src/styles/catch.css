@@ -44,8 +44,12 @@ section{
     width: 100%;
 }
 
+section a{
+    margin: 0 auto;
+    align-self: center;
+}
+
 #pokeball{
     width: 7rem;
     object-fit: contain;
-    margin: 0 auto;
 }
