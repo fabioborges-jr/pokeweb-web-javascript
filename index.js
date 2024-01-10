@@ -61,10 +61,6 @@ function gettingPokemonsDB(email){
   })
 }
 
-function getPokemonAtPokeAPI(){
-
-}
-
 // Routes
   // Pages
     app.get("/", checkAuthIndex, (req,res)=>{
@@ -99,8 +95,8 @@ function getPokemonAtPokeAPI(){
     })
 
     app.get("/catchnewpokemon", function (req, res){
-      const drawPokemon=Math.round(Math.random()*150+1)
       let newPokemon
+      const drawPokemon=Math.round(Math.random()*150+1)
       fetch(`https://pokeapi.co/api/v2/pokemon/${drawPokemon}`)
         .then((res)=>res.json())
         .then(data=>{
@@ -110,10 +106,9 @@ function getPokemonAtPokeAPI(){
             data.types[0].type.name,
             data.sprites.front_default
           )
+          res.json({newPokemon:newPokemon})
         })
         .catch((error)=>console.error(error))
-        console.log(newPokemon)
-        res.json({newPokemon:newPokemon})
       })
 
 // Port Listening
