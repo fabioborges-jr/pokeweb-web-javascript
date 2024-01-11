@@ -53,10 +53,22 @@ function checkAuthIndex(req, res, next) {
 }
 
 // Functions
-function gettingPokemonsDB(email){
-  return prisma.player.findUnique({
+async function gettingPokemonsDB(email){
+  const player=await prisma.player.findUnique({
     where:{
       email: email
+    }
+  })
+  return player.pokemonsID
+}
+
+async function saveNewPokemonAtDB(playerEmail,pokemonID){
+  await prisma.player.update({
+    where:{email:playerEmail},
+    data:{
+      pokemonsID:{
+        push:pokemonID
+      }
     }
   })
 }
@@ -83,11 +95,12 @@ function gettingPokemonsDB(email){
         passport.authenticate('discord', { failureRedirect: '/' }), function(req, res) { res.redirect('/app') } // auth success
     );
 
-    app.get("/player", function (req, res){
+    app.get("/player", async function (req, res){
+      const pokemonsID=await gettingPokemonsDB(req.user.email)
       const player=new Player(
         req.user.email,
         req.user.global_name,
-        gettingPokemonsDB(req.user.email),
+        pokemonsID,
         req.user.avatar,
         req.user.id    
       )
@@ -106,6 +119,7 @@ function gettingPokemonsDB(email){
             data.types[0].type.name,
             data.sprites.front_default
           )
+          saveNewPokemonAtDB(req.user.email, data.id)
           res.json({newPokemon:newPokemon})
         })
         .catch((error)=>console.error(error))
