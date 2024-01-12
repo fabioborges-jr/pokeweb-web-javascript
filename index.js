@@ -73,6 +73,10 @@ async function saveNewPokemonAtDB(playerEmail,pokemonID){
   })
 }
 
+async function getPokemonsDetails(){
+  fetch(``)
+}
+
 // Routes
   // Pages
     app.get("/", checkAuthIndex, (req,res)=>{
@@ -104,6 +108,7 @@ async function saveNewPokemonAtDB(playerEmail,pokemonID){
         req.user.avatar,
         req.user.id    
       )
+      const pokemonsDetails=await getPokemonsDetails(pokemonsID)
       res.json({player:player})
     })
 
