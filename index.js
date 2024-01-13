@@ -73,8 +73,16 @@ async function saveNewPokemonAtDB(playerEmail,pokemonID){
   })
 }
 
-async function getPokemonsDetails(){
-  fetch(``)
+function getPokemonsDetails(pokemonsID){
+  const pokemonDetails=pokemonsID.map((data)=>
+  fetch(`https://pokeapi.co/api/v2/pokemon/${data}`)
+  .then((res)=>res.json()))
+
+  return Promise.all(pokemonDetails)
+    .then((details)=>{
+      console.log(details)
+      return details
+    })
 }
 
 // Routes

@@ -3,6 +3,7 @@ const avatarElement=document.getElementById("avatar")
 const pokeballElement=document.getElementById("buttonGetPokemon")
 const pokemonsListElement=document.getElementById("pokemonsListElement")
 
+
 // Functions
 function getPlayerData(){
     return fetch("/player")
