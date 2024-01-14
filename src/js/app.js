@@ -5,26 +5,33 @@ const pokemonsListElement=document.getElementById("pokemonsListElement")
 
 
 // Functions
-function getPlayerData(){
-    return fetch("/player")
+async function getPlayerData(){
+    return fetch("/player", {timeout:10000})
     .then((res)=>res.json())
-    .then((data)=>data.player)
+    .then((data)=>{
+        const player=data.player
+        const pokemonsDetails=data.pokemonsDetails
+        return {player, pokemonsDetails}
+    })
     .catch((error)=>console.error(error))
 }
 
 function insertAvatarPokemons(){
     getPlayerData()
-    .then((player)=>{
+    .then(({player, pokemonsDetails})=>{
         avatarElement.innerHTML=`<img class="avatarImage" src="https://cdn.discordapp.com/avatars/${player.userIdDiscord}/${player.avatar}.png" alt="">`
-        pokemonsListElement.innerHTML=player.pokemonsID.map((data)=>{
-            console.log(data)
-            return `<div><p>${data}</p></div>`}).join("")
+        pokemonsListElement.innerHTML=pokemonsDetails.map((data)=>{
+           return `
+           <div>
+           <p>${data.name}</p>
+           <img src="${data.sprite}" alt="">
+           </div>`}).join("")
     })
     .catch((error)=> console.error(error))
 }
 
 function getNewPokemon(){
-    fetch("/catchnewpokemon")
+    fetch("/catchnewpokemon", {timeout:10000})
         .then((res)=>res.json())
         .then((data)=>data.newPokemon)
         .then((newPokemon)=>{

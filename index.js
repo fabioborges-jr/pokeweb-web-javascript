@@ -74,15 +74,28 @@ async function saveNewPokemonAtDB(playerEmail,pokemonID){
 }
 
 function getPokemonsDetails(pokemonsID){
+  let pokemonsWithDetailList=[]
   const pokemonDetails=pokemonsID.map((data)=>
-  fetch(`https://pokeapi.co/api/v2/pokemon/${data}`)
-  .then((res)=>res.json()))
+  fetch(`https://pokeapi.co/api/v2/pokemon/${data}`, {timeout:50000})
+  .then((res)=>res.json())
+  .catch((error)=>console.error(error)))
 
+  
   return Promise.all(pokemonDetails)
-    .then((details)=>{
-      console.log(details)
-      return details
+  .then((details)=>{
+    details.map((data)=>{
+      const pokemonWithDeitals=new Pokemon(
+        data.id,
+        data.name,
+        data.types[0].type.name,
+        data.sprites.front_default
+        )
+        pokemonsWithDetailList.push(pokemonWithDeitals)
+        
+      })
+      return pokemonsWithDetailList
     })
+  .catch((error)=>console.error(error))    
 }
 
 // Routes
@@ -117,13 +130,13 @@ function getPokemonsDetails(pokemonsID){
         req.user.id    
       )
       const pokemonsDetails=await getPokemonsDetails(pokemonsID)
-      res.json({player:player})
+      res.json({player:player, pokemonsDetails:pokemonsDetails})
     })
 
     app.get("/catchnewpokemon", function (req, res){
       let newPokemon
       const drawPokemon=Math.round(Math.random()*150+1)
-      fetch(`https://pokeapi.co/api/v2/pokemon/${drawPokemon}`)
+      fetch(`https://pokeapi.co/api/v2/pokemon/${drawPokemon}`, {timeout:10000})
         .then((res)=>res.json())
         .then(data=>{
           newPokemon=new Pokemon(
